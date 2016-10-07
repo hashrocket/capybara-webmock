@@ -7,7 +7,7 @@
 This gem currently supports Ruby on Rails applications with an RSpec test
 suite.
 
-## Installation
+### Installation
 
 Add this line to your application's Gemfile:
 
@@ -27,7 +27,7 @@ Or install it yourself as:
 $ gem install capybara-webmock
 ```
 
-## Usage
+### Usage
 
 In your `spec/rails_helper.rb`, add the following:
 
@@ -55,7 +55,7 @@ Then use the capybara-webmock JavaScript driver:
 Capybara.javascript_driver = :capybara_webmock
 ```
 
-## Development
+### Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run
 `rake spec` to run the tests. You can also run `bin/console` for an interactive
@@ -67,20 +67,22 @@ release a new version, update the version number in `version.rb`, and then run
 git commits and tags, and push the `.gem` file to
 [rubygems.org](https://rubygems.org).
 
-## Contributing
+### Contributing
 
 Bug reports and pull requests are welcome on GitHub at
-https://github.com/[USERNAME]/capybara-webmock. This project is intended to be
+https://github.com/hashrocket/capybara-webmock. This project is intended to be
 a safe, welcoming space for collaboration, and contributors are expected to
 adhere to the [Contributor Covenant](http://contributor-covenant.org) code of
 conduct.
 
-## License
+### License
 
 The gem is available as open source under the terms of the [MIT
 License](http://opensource.org/licenses/MIT).
 
-## About
+---
+
+### About
 
 [![Hashrocket logo](https://hashrocket.com/hashrocket_logo.svg)](https://hashrocket.com)
 
