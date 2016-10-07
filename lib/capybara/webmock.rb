@@ -9,12 +9,14 @@ module Capybara
 
       def start
         log_file   = File.join('log', 'test.log')
-        proxy_file = File.join('lib', 'capybara', 'webmock', 'config.ru')
-        IO.popen("ruby #{proxy_file} >> #{log_file} 2>&1")
+        gem_path   = File.dirname(__FILE__)
+        proxy_file = File.join(gem_path, 'webmock', 'config.ru')
+        IO.popen("rackup #{proxy_file} >> #{log_file} 2>&1")
       end
 
       def stop
-        if rack_pid = File.read(Capybara::Webmock::Proxy::PID_FILE).to_i
+        if File.exists?(Capybara::Webmock::Proxy::PID_FILE)
+          rack_pid = File.read(Capybara::Webmock::Proxy::PID_FILE).to_i
           Process.kill('HUP', rack_pid)
         end
       end
