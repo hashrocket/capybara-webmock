@@ -1,7 +1,12 @@
-require 'rack'
 require 'rack/proxy'
 
 class Capybara::Webmock::Proxy < Rack::Proxy
+  PID_FILE = File.join('tmp', 'pids', 'capybara_webmock_proxy.pid')
+
+  def initialize(pid)
+    write_pid(pid)
+  end
+
   def perform_request(env)
     request = Rack::Request.new(env)
     if request.host =~ %r{.*\.lvh.me}
@@ -10,20 +15,14 @@ class Capybara::Webmock::Proxy < Rack::Proxy
       ['200', {'Content-Type' => 'text/html'}, ['ok']]
     end
   end
+
+  def self.remove_pid
+    File.delete(PID_FILE) if File.exists?(PID_FILE)
+  end
+
+  private
+
+  def write_pid(pid)
+    File.write(PID_FILE, pid)
+  end
 end
-
-def remove_proxy_pid_file
-  File.delete('tmp/rack.pid') if File.exists?('tmp/rack.pid')
-end
-
-File.write('tmp/rack.pid', Process.pid)
-
-at_exit { remove_proxy_pid_file }
-
-trap("SIGHUP") do
-  remove_proxy_pid_file
-  exit!
-end
-
-app = Capybara::Webmock::Proxy.new
-Rack::Handler::WEBrick.run app, { Port: 9292 }
