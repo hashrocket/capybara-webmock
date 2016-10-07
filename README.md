@@ -78,7 +78,7 @@ conduct.
 The gem is available as open source under the terms of the [MIT
 License](http://opensource.org/licenses/MIT).
 
-### About
+## About
 
 [![Hashrocket logo](https://hashrocket.com/hashrocket_logo.svg)](https://hashrocket.com)
 
