@@ -24,6 +24,10 @@ class Capybara::Webmock::Proxy < Rack::Proxy
   private
 
   def write_pid(pid)
+    tmp_dir = 'tmp'
+    pid_dir = File.join(tmp_dir, 'pids')
+    Dir.mkdir(tmp_dir) unless Dir.exist?(tmp_dir)
+    Dir.mkdir(pid_dir) unless Dir.exist?(pid_dir)
     File.write(PID_FILE, pid)
   end
 end

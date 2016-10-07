@@ -6,13 +6,6 @@ describe Capybara::Webmock::Proxy do
   end
 
   context 'pid files' do
-    before do
-      tmp_dir = 'tmp'
-      pid_dir = File.join(tmp_dir, 'pids')
-      Dir.mkdir(tmp_dir) unless Dir.exist?(tmp_dir)
-      Dir.mkdir(pid_dir) unless Dir.exist?(pid_dir)
-    end
-
     it '#initialize' do
       File.write(Capybara::Webmock::Proxy::PID_FILE, '')
 
