@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['dev@hashrocket.com']
 
   spec.summary       = %q{Mock external requests}
-  spec.description   = %q{Mock external requests for Capybara Firefox & Chrome drivers}
+  spec.description   = %q{Mock external requests for Capybara Firefox drivers}
   spec.homepage      = 'https://github.com/hashrocket/capybara-webmock'
   spec.license       = 'MIT'
 
