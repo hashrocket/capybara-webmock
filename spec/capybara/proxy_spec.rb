@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'capybara/webmock/proxy'
 
 describe Capybara::Webmock::Proxy do
   it "PID_FILE to equal the correct value" do

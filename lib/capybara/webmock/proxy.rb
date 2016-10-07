@@ -1,4 +1,5 @@
 require 'rack/proxy'
+require 'capybara/webmock'
 
 class Capybara::Webmock::Proxy < Rack::Proxy
   PID_FILE = File.join('tmp', 'pids', 'capybara_webmock_proxy.pid')
