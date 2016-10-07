@@ -7,8 +7,7 @@ describe Capybara::Webmock::Proxy do
 
   context 'pid files' do
     it '#initialize' do
-      File.write(Capybara::Webmock::Proxy::PID_FILE, '')
-
+      Capybara::Webmock::Proxy.new('')
       expect(File.read(Capybara::Webmock::Proxy::PID_FILE)).to eq ''
       Capybara::Webmock::Proxy.new('1234567')
       expect(File.read(Capybara::Webmock::Proxy::PID_FILE)).to eq '1234567'
@@ -17,7 +16,7 @@ describe Capybara::Webmock::Proxy do
     end
 
     it '.remove_pid' do
-      File.write(Capybara::Webmock::Proxy::PID_FILE, '1234567')
+      Capybara::Webmock::Proxy.new('')
       expect(File.exists?(Capybara::Webmock::Proxy::PID_FILE)).to be
       Capybara::Webmock::Proxy.remove_pid
       expect(File.exists?(Capybara::Webmock::Proxy::PID_FILE)).to_not be
