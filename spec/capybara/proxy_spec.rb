@@ -31,4 +31,19 @@ describe Capybara::Webmock::Proxy do
       expect(File.exists?(Capybara::Webmock::Proxy::PID_FILE)).to_not be
     end
   end
+
+  context '#perform_requests' do
+
+    let(:proxy) { Capybara::Webmock::Proxy.new('123456') }
+
+    it 'returns an empty response when unknown domain' do
+      env = {
+        "REQUEST_METHOD" => "GET",
+        "REQUEST_URI" => "http://notlvh.me",
+        "HTTP_HOST" => "notlvh.me",
+        "REQUEST_PATH" => "/index.html"
+      }
+      expect(proxy.perform_request(env)).to eq ["200", {"Content-Type"=>"text/html"}, [""]]
+    end
+  end
 end

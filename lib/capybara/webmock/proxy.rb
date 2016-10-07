@@ -12,7 +12,7 @@ class Capybara::Webmock::Proxy < Rack::Proxy
     if request.host =~ %r{.*\.lvh.me}
       super(env)
     else
-      ['200', {'Content-Type' => 'text/html'}, ['ok']]
+      ['200', {'Content-Type' => 'text/html'}, ['']]
     end
   end
 
