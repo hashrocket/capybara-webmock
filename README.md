@@ -63,7 +63,7 @@ RSpec.configure do |config|
 end
 ```
 
-Then use the capybara-webmock JavaScript driver:
+Then use the `capybara_webmock` JavaScript driver:
 
 ```ruby
 Capybara.javascript_driver = :capybara_webmock
