@@ -3,27 +3,23 @@
 
 # Capybara::Webmock
 
-> Mock external requests for Capybara Firefox & Chrome drivers.
-
 Browser integration tests are expensive. We can mock external requests in our
 tests, but once a browser is involved, we lose control.
 
 External JavaScript libraries, CDN's, images, analytics, and more can slow an
 integration test suite to a crawl.
 
-Capybara::Webmock is a Rack proxy server that sits between your Ruby on Rails
-Selenium Firefox test suite and the Internet, blocking any external requests.
+`Capybara::Webmock` is a Rack proxy server that sits between your Ruby on Rails
+Selenium Firefox test suite and the Internet, blocking external requests.
 
-Based on our early, pseudo-scientific experiments, adding this gem to your
-project can significantly speed up the test suite. No more waiting on
-irrelevant external requests.
+Adding this gem to your project can significantly speed up the test suite. No
+more waiting on irrelevant external requests.
 
 `localhost` and `lvh.me` are the only whitelisted domains. Custom domain
 support is a planned feature.
 
 This gem currently supports Ruby on Rails applications with an RSpec test
-suite, using the Selenium Firefox driver. Selenium Chromedriver support is in
-the works.
+suite, using the Selenium Firefox driver. ChromeDriver support is in the works.
 
 ### Installation
 
@@ -104,7 +100,7 @@ License](http://opensource.org/licenses/MIT).
 
 [![Hashrocket logo](https://hashrocket.com/hashrocket_logo.svg)](https://hashrocket.com)
 
-Capybara::Webmock is supported by the team at [Hashrocket, a multidisciplinary
+`Capybara::Webmock` is supported by the team at [Hashrocket, a multidisciplinary
 design and development consultancy](https://hashrocket.com). If you'd like to
 [work with us](https://hashrocket.com/contact-us/hire-us) or [join our
 team](https://hashrocket.com/contact-us/jobs), don't hesitate to get in touch.
