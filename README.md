@@ -3,10 +3,27 @@
 
 # Capybara::Webmock
 
-> Mock external requests for Capybara Firefox & Chrome drivers
+> Mock external requests for Capybara Firefox & Chrome drivers.
+
+Browser integration tests are expensive. We can mock external requests in our
+tests, but once a browser is involved, we lose control.
+
+External JavaScript libraries, CDN's, images, analytics, and more can slow an
+integration test suite to a crawl.
+
+Capybara::Webmock is a Rack proxy server that sits between your Ruby on Rails
+Selenium Firefox test suite and the Internet, blocking any external requests.
+
+Based on our early, pseudo-scientific experiments, adding this gem to your
+project can significantly speed up the test suite. No more waiting on
+irrelevant external requests.
+
+`localhost` and `lvh.me` are the only whitelisted domains. Custom domain
+support is a planned feature.
 
 This gem currently supports Ruby on Rails applications with an RSpec test
-suite.
+suite, using the Selenium Firefox driver. Selenium Chromedriver support is in
+the works.
 
 ### Installation
 
