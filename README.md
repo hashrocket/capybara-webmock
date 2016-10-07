@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/hashrocket/capybara-webmock.svg?style=svg)](https://circleci.com/gh/hashrocket/capybara-webmock)
+
 # Capybara::Webmock
 
 > Mock external requests for Capybara Firefox & Chrome drivers
