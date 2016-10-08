@@ -36,3 +36,7 @@ Capybara.register_driver :capybara_webmock do |app|
   profile["network.proxy.ssl_port"] = proxy_port
   Capybara::Selenium::Driver.new(app, browser: :firefox, profile: profile)
 end
+
+Capybara.register_driver :capybara_webmock_chrome do |app|
+  Capybara::Selenium::Driver.new(app, browser: :chrome, switches: %w[--proxy-server=127.0.0.1:9292])
+end
