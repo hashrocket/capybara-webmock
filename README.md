@@ -66,12 +66,14 @@ end
 Then use the `capybara_webmock` JavaScript driver:
 
 ```ruby
+# Use Firefox Driver
 Capybara.javascript_driver = :capybara_webmock
 ```
 
 or
 
 ```ruby
+# Use Chrome Driver
 Capybara.javascript_driver = :capybara_webmock_chrome
 ```
 
