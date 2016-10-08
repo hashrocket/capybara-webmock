@@ -10,16 +10,16 @@ External JavaScript libraries, CDN's, images, analytics, and more can slow an
 integration test suite to a crawl.
 
 `Capybara::Webmock` is a Rack proxy server that sits between your Ruby on Rails
-Selenium Firefox test suite and the Internet, blocking external requests.
+Selenium test suite and the Internet, blocking external requests.
 
 Adding this gem to your project can significantly speed up the test suite. No
 more waiting on irrelevant external requests.
 
-`localhost` and `lvh.me` are the only whitelisted domains. Custom domain
+`localhost`, `127.0.0.1`, `*.lvh.me`, and `lvh.me` are the only whitelisted domains. Custom domain
 support is a planned feature.
 
 This gem currently supports Ruby on Rails applications with an RSpec test
-suite, using the Selenium Firefox driver. ChromeDriver support is in the works.
+suite, using the Selenium Firefox and Chrome drivers.
 
 ### Installation
 
@@ -67,6 +67,12 @@ Then use the `capybara_webmock` JavaScript driver:
 
 ```ruby
 Capybara.javascript_driver = :capybara_webmock
+```
+
+or
+
+```ruby
+Capybara.javascript_driver = :capybara_webmock_chrome
 ```
 
 ### Development

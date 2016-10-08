@@ -10,7 +10,9 @@ class Capybara::Webmock::Proxy < Rack::Proxy
 
   def perform_request(env)
     request = Rack::Request.new(env)
-    if request.host =~ %r{.*\.lvh.me}
+    allowed_urls = ['127.0.0.1', 'localhost', %r{(.*\.|\A)lvh.me}]
+
+    if allowed_url?(allowed_urls, request.host)
       super(env)
     else
       ['200', {'Content-Type' => 'text/html'}, ['']]
@@ -22,6 +24,17 @@ class Capybara::Webmock::Proxy < Rack::Proxy
   end
 
   private
+
+  def allowed_url?(urls, host)
+    case urls
+    when Array
+      urls.any? { |url| allowed_url?(url, host) }
+    when Regexp
+      urls =~ host
+    when String
+      urls == host
+    end
+  end
 
   def write_pid(pid)
     tmp_dir = 'tmp'
