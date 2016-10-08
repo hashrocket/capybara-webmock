@@ -26,9 +26,13 @@ module Capybara
 end
 
 Capybara.register_driver :capybara_webmock do |app|
+  proxy_host = '127.0.0.1'
+  proxy_port = 9292
   profile = Selenium::WebDriver::Firefox::Profile.new
   profile["network.proxy.type"] = 1
-  profile["network.proxy.http"] = '127.0.0.1'
-  profile["network.proxy.http_port"] = 9292
+  profile["network.proxy.http"] = proxy_host
+  profile["network.proxy.http_port"] = proxy_port
+  profile["network.proxy.ssl"] = proxy_host
+  profile["network.proxy.ssl_port"] = proxy_port
   Capybara::Selenium::Driver.new(app, browser: :firefox, profile: profile)
 end
