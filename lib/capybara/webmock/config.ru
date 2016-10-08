@@ -9,4 +9,4 @@ trap('SIGHUP') {
 }
 
 app = Capybara::Webmock::Proxy.new(Process.pid)
-Rack::Handler::WEBrick.run app, { Port: 9292 }
+Rack::Handler::WEBrick.run(app, Port: ENV.fetch('PROXY_PORT_NUMBER', 9292))
