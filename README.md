@@ -87,6 +87,10 @@ or
 Capybara.javascript_driver = :capybara_webmock_chrome
 ```
 
+*NOTE: These are just two default driver wrappers this gem provides. If you are
+already using a custom driver profile you can still use `capybara-webmock`, you
+just need to configure proxy settings to `127.0.0.1:9292`*
+
 By default the proxy server runs on port `9292`, but this can be customized
 with the following configuration:
 
