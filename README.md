@@ -88,7 +88,7 @@ Capybara.javascript_driver = :capybara_webmock_chrome
 ```
 
 By default the proxy server run on port `9292`, but this can be customized
-with the following configuration in `spec/rails_helper.rb`:
+with the following configuration:
 
 ```ruby
 Capybara::Webmock.port_number = 8080
