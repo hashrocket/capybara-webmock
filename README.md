@@ -87,7 +87,7 @@ or
 Capybara.javascript_driver = :capybara_webmock_chrome
 ```
 
-By default the proxy server run on port `9292`, but this can be customized
+By default the proxy server runs on port `9292`, but this can be customized
 with the following configuration:
 
 ```ruby
