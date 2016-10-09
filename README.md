@@ -18,8 +18,8 @@ more waiting on irrelevant external requests.
 `localhost`, `127.0.0.1`, `*.lvh.me`, and `lvh.me` are the only whitelisted domains. Custom domain
 support is a planned feature.
 
-This gem currently supports Ruby on Rails applications with an RSpec test
-suite, using the Selenium Firefox and Chrome drivers.
+This gem currently supports Ruby on Rails applications with RSpec and
+Cucumber test suites, using the Selenium Firefox and Chrome drivers.
 
 ### Installation
 
@@ -60,6 +60,16 @@ RSpec.configure do |config|
   config.after(:suite) do
     Capybara::Webmock.stop
   end
+end
+```
+
+Or, your Cucumber configuration:
+
+```ruby
+Capybara::Webmock.start
+
+at_exit do
+  Capybara::Webmock.stop
 end
 ```
 
