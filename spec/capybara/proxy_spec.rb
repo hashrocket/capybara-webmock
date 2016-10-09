@@ -2,25 +2,36 @@ require 'spec_helper'
 require 'ostruct'
 
 describe Capybara::Webmock::Proxy do
+
   it "PID_FILE to equal the correct value" do
     expect(Capybara::Webmock::Proxy::PID_FILE).to eq 'tmp/pids/capybara_webmock_proxy.pid'
   end
 
   context 'pid files' do
-    it '#initialize' do
+    before do
       Capybara::Webmock::Proxy.new('')
-      expect(File.read(Capybara::Webmock::Proxy::PID_FILE)).to eq ''
-      Capybara::Webmock::Proxy.new('1234567')
-      expect(File.read(Capybara::Webmock::Proxy::PID_FILE)).to eq '1234567'
+    end
 
-      File.delete(Capybara::Webmock::Proxy::PID_FILE)
+    after do
+      if File.exists?(Capybara::Webmock::Proxy::PID_FILE)
+        File.delete(Capybara::Webmock::Proxy::PID_FILE)
+      end
+    end
+
+    it '#initialize' do
+      expect {
+        Capybara::Webmock::Proxy.new('1234567')
+      }.to change {
+        File.read(Capybara::Webmock::Proxy::PID_FILE)
+      }.from('').to('1234567')
     end
 
     it '.remove_pid' do
-      Capybara::Webmock::Proxy.new('')
-      expect(File.exists?(Capybara::Webmock::Proxy::PID_FILE)).to be
-      Capybara::Webmock::Proxy.remove_pid
-      expect(File.exists?(Capybara::Webmock::Proxy::PID_FILE)).to_not be
+      expect {
+        Capybara::Webmock::Proxy.remove_pid
+      }.to change {
+        File.exists?(Capybara::Webmock::Proxy::PID_FILE)
+      }.from(true).to(false)
     end
   end
 
