@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'ostruct'
 
 describe Capybara::Webmock::Proxy do
-
   it "PID_FILE to equal the correct value" do
     expect(Capybara::Webmock::Proxy::PID_FILE).to eq 'tmp/pids/capybara_webmock_proxy.pid'
   end
@@ -35,6 +34,20 @@ describe Capybara::Webmock::Proxy do
     end
   end
 
+  context 'log files' do
+    after do
+      Capybara::Webmock::Proxy.remove_pid
+    end
+
+    it 'ensures a log file' do
+      expect {
+        Capybara::Webmock::Proxy.new ''
+      }.to change {
+        File.exists?(File.join('log', 'test.log'))
+      }.from(false).to(true)
+    end
+  end
+
   context '#perform_requests' do
 
     def new_env(host)
@@ -47,6 +60,10 @@ describe Capybara::Webmock::Proxy do
     end
 
     let(:proxy) { Capybara::Webmock::Proxy.new('123456') }
+
+    after do
+      Capybara::Webmock::Proxy.remove_pid
+    end
 
     it 'returns an empty response when unknown domain' do
       env = new_env("notlvh.me")
