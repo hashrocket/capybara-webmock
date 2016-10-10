@@ -6,6 +6,7 @@ class Capybara::Webmock::Proxy < Rack::Proxy
 
   def initialize(pid)
     write_pid(pid)
+    ensure_log_exists
   end
 
   def perform_request(env)
@@ -42,5 +43,11 @@ class Capybara::Webmock::Proxy < Rack::Proxy
     Dir.mkdir(tmp_dir) unless Dir.exist?(tmp_dir)
     Dir.mkdir(pid_dir) unless Dir.exist?(pid_dir)
     File.write(PID_FILE, pid)
+  end
+
+  def ensure_log_exists
+    log_file = File.join('log', 'test.log')
+    Dir.mkdir('log') unless Dir.exist?('log')
+    File.open(log_file, 'a') { |f| f.write "" }
   end
 end
