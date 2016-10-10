@@ -21,7 +21,7 @@ class Capybara::Webmock::Proxy < Rack::Proxy
   end
 
   def self.remove_pid
-    File.delete(PID_FILE) if File.exists?(PID_FILE)
+    File.delete(PID_FILE) if File.exist?(PID_FILE)
   end
 
   private
