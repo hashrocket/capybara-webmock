@@ -17,7 +17,7 @@ module Capybara
       end
 
       def stop
-        if File.exists?(Capybara::Webmock::Proxy::PID_FILE)
+        if File.exist?(Capybara::Webmock::Proxy::PID_FILE)
           rack_pid = File.read(Capybara::Webmock::Proxy::PID_FILE).to_i
           Process.kill('HUP', rack_pid)
         end

@@ -12,7 +12,7 @@ describe Capybara::Webmock::Proxy do
     end
 
     after do
-      if File.exists?(Capybara::Webmock::Proxy::PID_FILE)
+      if File.exist?(Capybara::Webmock::Proxy::PID_FILE)
         File.delete(Capybara::Webmock::Proxy::PID_FILE)
       end
     end
@@ -29,7 +29,7 @@ describe Capybara::Webmock::Proxy do
       expect {
         Capybara::Webmock::Proxy.remove_pid
       }.to change {
-        File.exists?(Capybara::Webmock::Proxy::PID_FILE)
+        File.exist?(Capybara::Webmock::Proxy::PID_FILE)
       }.from(true).to(false)
     end
   end
@@ -43,7 +43,7 @@ describe Capybara::Webmock::Proxy do
       expect {
         Capybara::Webmock::Proxy.new ''
       }.to change {
-        File.exists?(File.join('log', 'test.log'))
+        File.exist?(File.join('log', 'test.log'))
       }.from(false).to(true)
     end
   end
