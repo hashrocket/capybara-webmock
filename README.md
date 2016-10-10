@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/hashrocket/capybara-webmock.svg?style=svg)](https://circleci.com/gh/hashrocket/capybara-webmock)
+[![CircleCI](https://img.shields.io/circleci/project/hashrocket/capybara-webmock/master.svg?maxAge=2592000)](https://circleci.com/gh/hashrocket/capybara-webmock)
 [![Version](https://img.shields.io/gem/v/capybara-webmock.svg?style=flat)](https://rubygems.org/gems/capybara-webmock)
 
 # Capybara::Webmock
