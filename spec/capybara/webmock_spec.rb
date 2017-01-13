@@ -9,17 +9,39 @@ describe Capybara::Webmock do
     Capybara::Webmock.chrome_switches.first
   end
 
+  let(:phantomjs_options) do
+    Capybara::Webmock.phantomjs_options.first
+  end
+
   it 'has a version number' do
     expect(Capybara::Webmock::VERSION).not_to be nil
   end
 
   describe '#chrome_switches' do
+    it 'has an proxy flag' do
+      expect(chrome_switches).to include '--proxy-server='
+    end
+
     it 'has an http proxy address' do
       expect(chrome_switches).to include '127.0.0.1'
     end
 
     it 'has an http proxy port' do
       expect(chrome_switches).to include '9292'
+    end
+  end
+
+  describe '#phantomjs_options' do
+    it 'has an proxy flag' do
+      expect(phantomjs_options).to include '--proxy='
+    end
+
+    it 'has an http proxy address' do
+      expect(phantomjs_options).to include '127.0.0.1'
+    end
+
+    it 'has an http proxy port' do
+      expect(phantomjs_options).to include '9292'
     end
   end
 
