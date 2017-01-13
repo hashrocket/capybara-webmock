@@ -54,6 +54,8 @@ require 'capybara/webmock'
 Then in your RSpec configuration:
 
 ```ruby
+# spec/spec_helper.rb
+
 RSpec.configure do |config|
   config.before(:suite) do
     Capybara::Webmock.start
@@ -68,6 +70,8 @@ end
 Or, your Cucumber configuration:
 
 ```ruby
+# features/support/env.rb
+
 Capybara::Webmock.start
 
 at_exit do
