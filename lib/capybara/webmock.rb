@@ -38,6 +38,9 @@ module Capybara
         ["--proxy-server=127.0.0.1:#{port_number}"]
       end
 
+      def phantomjs_options
+        ["--proxy=127.0.0.1:#{port_number}"]
+      end
     end
   end
 end
@@ -50,4 +53,8 @@ end
 
 Capybara.register_driver :capybara_webmock_chrome do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome, switches: Capybara::Webmock.chrome_switches)
+end
+
+Capybara.register_driver :capybara_webmock_poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, phantomjs_options: Capybara::Webmock.phantomjs_options)
 end
