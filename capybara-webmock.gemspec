@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "capybara", "~> 2.4"
   spec.add_dependency "rack", ">= 1.4"
-  spec.add_dependency "rack-proxy", "0.6.0"
+  spec.add_dependency "rack-proxy", ">= 0.6.0"
   spec.add_dependency "selenium-webdriver", "~> 3.0"
 
   spec.add_development_dependency "bundler", "~> 1.13"
