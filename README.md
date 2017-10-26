@@ -57,25 +57,15 @@ Then in your RSpec configuration:
 # spec/spec_helper.rb
 
 RSpec.configure do |config|
-  config.before(:suite) do
-    Capybara::Webmock.start
+  config.before(:each) do |example|
+    if example.metadata[:type] == :feature
+      Capybara::Webmock.start
+    end
   end
 
   config.after(:suite) do
     Capybara::Webmock.stop
   end
-end
-```
-
-Or, your Cucumber configuration:
-
-```ruby
-# features/support/env.rb
-
-Capybara::Webmock.start
-
-at_exit do
-  Capybara::Webmock.stop
 end
 ```
 
@@ -107,6 +97,15 @@ with the following configuration:
 
 ```ruby
 Capybara::Webmock.port_number = 8080
+```
+
+During each test, you can inspect the list of proxied requests:
+
+```ruby
+it 'makes a request to /somewhere when the user visits the page' do
+  visit "/some-page"
+  expect(Capybara::Webmock.proxied_requests.any?{|req| req.path == "/somewhere" }).to be
+end
 ```
 
 ### Development
