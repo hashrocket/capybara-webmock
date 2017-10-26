@@ -12,8 +12,12 @@ require "capybara/webmock"
 
 RSpec.configure do |config|
   config.after(:each) do
+    Capybara::Webmock.instance_variables.each do |var|
+      Capybara::Webmock.send(:remove_instance_variable, var)
+    end
+
     Capybara::Webmock.port_number = 9292
-    log_file = File.join(Dir.pwd, 'log', 'test.log')
-    File.delete(log_file) if File.exist?(log_file)
+    Capybara::Webmock.pid_file = File.join('tmp', 'pids', 'capybara_webmock_proxy.pid')
+    Capybara::Webmock.kill_timeout = 5
   end
 end

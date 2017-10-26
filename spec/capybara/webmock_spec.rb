@@ -1,3 +1,6 @@
+require 'open3'
+require 'fileutils'
+
 require 'spec_helper'
 
 describe Capybara::Webmock do
@@ -5,8 +8,8 @@ describe Capybara::Webmock do
     Capybara::Webmock.firefox_profile.instance_variable_get("@additional_prefs")
   end
 
-  let(:chrome_switches) do
-    Capybara::Webmock.chrome_switches.first
+  let(:chrome_args) do
+    Capybara::Webmock.chrome_options[:args]
   end
 
   let(:phantomjs_options) do
@@ -17,17 +20,17 @@ describe Capybara::Webmock do
     expect(Capybara::Webmock::VERSION).not_to be nil
   end
 
-  describe '#chrome_switches' do
+  describe '#chrome_args' do
     it 'has an proxy flag' do
-      expect(chrome_switches).to include '--proxy-server='
+      expect(chrome_args).to include 'proxy-server='
     end
 
     it 'has an http proxy address' do
-      expect(chrome_switches).to include '127.0.0.1'
+      expect(chrome_args).to include '127.0.0.1'
     end
 
     it 'has an http proxy port' do
-      expect(chrome_switches).to include '9292'
+      expect(chrome_args).to include '9292'
     end
   end
 
@@ -88,50 +91,69 @@ describe Capybara::Webmock do
       end
 
       it 'changes the http port' do
-        expect(chrome_switches).to include '9988'
+        expect(chrome_args).to include '9988'
       end
     end
   end
 
-  describe '#start' do
+  context 'starting and stopping the server' do
+    let(:stdin) { instance_double(IO) }
+    let(:stdout) { instance_double(IO) }
+
     before do
-      allow(IO).to receive(:popen)
+      allow(FileUtils).to receive(:mkdir_p)
+      allow(Open3).to receive(:popen2e).and_return([ stdin, stdout, { pid: 1234 } ])
+      allow(stdin).to receive(:close)
+      allow(stdout).to receive(:read_nonblock).and_return("")
+      allow(stdout).to receive(:close)
+
+      written = []
+      allow(File).to receive(:delete) { |path| written.delete(path) }
+      allow(File).to receive(:write) { |path| written.push(path) }
+      allow(File).to receive(:exists?) { |path| written.include?(path) }
+
+      killed = []
+      allow(Process).to receive(:kill) do |signal, pid|
+        if signal == 0
+          !killed.include?(pid)
+        elsif signal == "HUP"
+          killed.push(pid)
+        end
+      end
     end
 
-    def new_popen_regex(port: 9292)
-      /PROXY_PORT_NUMBER=#{port} rackup .*lib\/capybara\/webmock\/config\.ru >> log\/test.log 2>&1/
+    describe '#start' do
+      it 'starts a process' do
+        Capybara::Webmock.start
+        expect(Open3).to have_received(:popen2e).with(
+          { "PROXY_PORT_NUMBER" => "9292" },
+          "rackup",
+          %r{/lib/capybara/webmock/config\.ru\Z}
+        )
+        expect(stdin).to have_received(:close)
+        expect(FileUtils).to have_received(:mkdir_p).with("tmp/pids")
+        expect(File).to have_received(:write).with("tmp/pids/capybara_webmock_proxy.pid", "1234")
+      end
+
+      it 'uses a custom port' do
+        Capybara::Webmock.port_number = 8873
+        Capybara::Webmock.start
+        expect(Open3).to have_received(:popen2e).with({ "PROXY_PORT_NUMBER" => "8873" }, anything, anything)
+      end
     end
 
-    it 'starts a process' do
-      popen_args_regex = new_popen_regex
-      Capybara::Webmock.start
-      expect(IO).to have_received(:popen).with(popen_args_regex)
-    end
+    describe '#stop' do
+      it 'kills the server' do
+        Capybara::Webmock.start
+        expect(Process).not_to have_received(:kill)
+        expect(File).not_to have_received(:delete)
+        expect(stdout).not_to have_received(:close)
 
-    it 'uses a custom port' do
-      Capybara::Webmock.port_number = 8873
-
-      popen_args_regex = new_popen_regex(port: 8873)
-      Capybara::Webmock.start
-      expect(IO).to have_received(:popen).with(popen_args_regex)
-    end
-  end
-
-  describe '#stop' do
-    before do
-      allow(IO).to receive(:popen).and_return(OpenStruct.new(pid: 42))
-      allow(Process).to receive(:kill)
-      Capybara::Webmock::Proxy.new '42'
-    end
-
-    after do
-      Capybara::Webmock::Proxy.remove_pid
-    end
-
-    it 'kills the server' do
-      pid = Capybara::Webmock.start.pid
-      Capybara::Webmock.stop
-      expect(Process).to have_received(:kill).with('HUP', 42)
+        Capybara::Webmock.stop
+        expect(Process).to have_received(:kill).with('HUP', 1234)
+        expect(File).to have_received(:delete).with("tmp/pids/capybara_webmock_proxy.pid")
+        expect(stdout).to have_received(:close)
+      end
     end
   end
 end
