@@ -1,5 +1,6 @@
 require 'open3'
 require 'fileutils'
+require 'socket'
 
 require 'spec_helper'
 
@@ -111,6 +112,8 @@ describe Capybara::Webmock do
       allow(File).to receive(:delete) { |path| written.delete(path) }
       allow(File).to receive(:write) { |path| written.push(path) }
       allow(File).to receive(:exists?) { |path| written.include?(path) }
+
+      allow(Socket).to receive(:tcp)
 
       killed = []
       allow(Process).to receive(:kill) do |signal, pid|

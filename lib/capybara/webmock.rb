@@ -1,5 +1,6 @@
 require 'open3'
 require 'fileutils'
+require 'socket'
 require 'capybara'
 require 'selenium-webdriver'
 require 'capybara/webmock/version'
@@ -9,7 +10,7 @@ require 'capybara/webmock/proxied_request'
 module Capybara
   module Webmock
     class << self
-      attr_accessor :port_number, :pid_file, :kill_timeout
+      attr_accessor :port_number, :pid_file, :kill_timeout, :start_timeout
 
       def start
         if @pid.nil?
@@ -21,6 +22,7 @@ module Capybara
           @stdout = stdout
           @pid = wait_thr[:pid]
           write_pid_file
+          wait_for_proxy_start
         end
 
         get_output_nonblocking
@@ -70,6 +72,23 @@ module Capybara
       end
 
       private
+
+      def wait_for_proxy_start
+        connected = false
+        (1..start_timeout).each do
+          begin
+            Socket.tcp("127.0.0.1", port_number, connect_timeout: 1) {}
+            connected = true
+            break
+          rescue => e
+            sleep 1
+          end
+        end
+
+        unless connected
+          raise "Unable to connect to capybara-webmock proxy on #{port_number}"
+        end
+      end
 
       def get_output_nonblocking
         buf = ""
@@ -132,6 +151,7 @@ end
 Capybara::Webmock.port_number ||= 9292
 Capybara::Webmock.pid_file ||= File.join('tmp', 'pids', 'capybara_webmock_proxy.pid')
 Capybara::Webmock.kill_timeout ||= 5
+Capybara::Webmock.start_timeout ||= 30
 
 Capybara.register_driver :capybara_webmock do |app|
   Capybara::Selenium::Driver.new(app, browser: :firefox, profile: Capybara::Webmock.firefox_profile)

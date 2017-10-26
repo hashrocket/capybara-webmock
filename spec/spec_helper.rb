@@ -19,5 +19,6 @@ RSpec.configure do |config|
     Capybara::Webmock.port_number = 9292
     Capybara::Webmock.pid_file = File.join('tmp', 'pids', 'capybara_webmock_proxy.pid')
     Capybara::Webmock.kill_timeout = 5
+    Capybara::Webmock.start_timeout = 5
   end
 end
