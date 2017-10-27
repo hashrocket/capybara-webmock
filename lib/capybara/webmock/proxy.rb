@@ -10,7 +10,13 @@ class Capybara::Webmock::Proxy < Rack::Proxy
     if allowed_host?(request.host)
       super(env)
     else
-      ['200', {'Content-Type' => 'text/html'}, ['']]
+      headers = {
+        'Content-Type' => 'text/html',
+        'Access-Control-Allow-Origin' => '*',
+        'Access-Control-Allow-Methods' => '*',
+        'Access-Control-Allow-Headers' => '*'
+      }
+      ['200', headers, ['']]
     end
   end
 
