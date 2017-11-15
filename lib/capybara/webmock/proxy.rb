@@ -11,7 +11,7 @@ class Capybara::Webmock::Proxy < Rack::Proxy
 
   def perform_request(env)
     request = Rack::Request.new(env)
-    allowed_urls = ['127.0.0.1', 'localhost', %r{(.*\.|\A)lvh.me}]
+    allowed_urls = ['127.0.0.1', 'localhost', %r{(.*\.|\A)lvh.me}, *(Capybara::Webmock.allowed_urls || [])]
 
     if allowed_url?(allowed_urls, request.host)
       super(env)

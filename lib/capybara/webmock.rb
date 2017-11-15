@@ -7,7 +7,7 @@ module Capybara
   module Webmock
     class << self
 
-      attr_accessor :port_number
+      attr_accessor :port_number, :allowed_urls
 
       def start
         log_file   = File.join('log', 'test.log')
