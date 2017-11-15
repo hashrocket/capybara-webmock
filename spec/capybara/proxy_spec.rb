@@ -85,6 +85,19 @@ describe Capybara::Webmock::Proxy do
           expect(proxy.perform_request(env)).to eq ["200", [], ["good response"]]
         end
       end
+
+      context 'and custom allowed URLs' do
+        before do
+          Capybara::Webmock.allowed_urls = %w(example.com example.net)
+        end
+
+        %w{example.com example.net}.each do |host|
+          it "allows #{host}" do
+            env = new_env(host)
+            expect(proxy.perform_request(env)).to eq ["200", [], ["good response"]]
+          end
+        end
+      end
     end
   end
 end
