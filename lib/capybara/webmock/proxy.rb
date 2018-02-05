@@ -9,6 +9,11 @@ class Capybara::Webmock::Proxy < Rack::Proxy
     ensure_log_exists
   end
 
+  def call(env)
+    @streaming = true
+    super
+  end
+
   def perform_request(env)
     request = Rack::Request.new(env)
     allowed_urls = ['127.0.0.1', 'localhost', %r{(.*\.|\A)lvh.me}]
@@ -22,6 +27,12 @@ class Capybara::Webmock::Proxy < Rack::Proxy
 
   def self.remove_pid
     File.delete(PID_FILE) if File.exist?(PID_FILE)
+  end
+
+  def rewrite_response(triplet)
+    status, headers, body = triplet
+    headers.delete "transfer-encoding"
+    triplet
   end
 
   private
