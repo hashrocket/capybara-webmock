@@ -5,8 +5,8 @@ describe Capybara::Webmock do
     Capybara::Webmock.firefox_profile.instance_variable_get("@additional_prefs")
   end
 
-  let(:chrome_switches) do
-    Capybara::Webmock.chrome_switches.first
+  let(:chrome_options) do
+    Capybara::Webmock.chrome_options.first
   end
 
   let(:phantomjs_options) do
@@ -17,17 +17,17 @@ describe Capybara::Webmock do
     expect(Capybara::Webmock::VERSION).not_to be nil
   end
 
-  describe '#chrome_switches' do
+  describe '#chrome_options' do
     it 'has an proxy flag' do
-      expect(chrome_switches).to include '--proxy-server='
+      expect(chrome_options).to include '--proxy-server='
     end
 
     it 'has an http proxy address' do
-      expect(chrome_switches).to include '127.0.0.1'
+      expect(chrome_options).to include '127.0.0.1'
     end
 
     it 'has an http proxy port' do
-      expect(chrome_switches).to include '9292'
+      expect(chrome_options).to include '9292'
     end
   end
 
@@ -88,7 +88,7 @@ describe Capybara::Webmock do
       end
 
       it 'changes the http port' do
-        expect(chrome_switches).to include '9988'
+        expect(chrome_options).to include '9988'
       end
     end
   end
