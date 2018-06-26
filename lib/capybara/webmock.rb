@@ -34,7 +34,7 @@ module Capybara
         profile
       end
 
-      def chrome_switches
+      def chrome_options
         ["--proxy-server=127.0.0.1:#{port_number}"]
       end
 
@@ -52,7 +52,7 @@ Capybara.register_driver :capybara_webmock do |app|
 end
 
 Capybara.register_driver :capybara_webmock_chrome do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome, switches: Capybara::Webmock.chrome_switches)
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: Capybara::Webmock.chrome_options)
 end
 
 Capybara.register_driver :capybara_webmock_poltergeist do |app|
