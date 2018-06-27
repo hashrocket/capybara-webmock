@@ -6,7 +6,7 @@ describe Capybara::Webmock do
   end
 
   let(:chrome_options) do
-    Capybara::Webmock.chrome_options.first
+    Capybara::Webmock.chrome_options.args.first
   end
 
   let(:phantomjs_options) do
