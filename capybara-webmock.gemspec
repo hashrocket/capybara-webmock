@@ -6,12 +6,12 @@ require 'capybara/webmock/version'
 Gem::Specification.new do |spec|
   spec.name          = 'capybara-webmock'
   spec.version       = Capybara::Webmock::VERSION
-  spec.authors       = ['Jake Worth', 'Dillon Hafer']
-  spec.email         = ['dev@hashrocket.com']
+  spec.authors       = ['Jake Worth', 'Dillon Hafer', 'David Simon']
+  spec.email         = ['support@swellinvesting.com']
 
   spec.summary       = %q{Mock external requests}
   spec.description   = %q{Mock external requests for Capybara JavaScript drivers}
-  spec.homepage      = 'https://github.com/hashrocket/capybara-webmock'
+  spec.homepage      = 'https://github.com/swell-investing/capybara-webmock'
   spec.license       = 'MIT'
 
   spec.required_ruby_version     = ">= 2.0.0"
@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
 
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "capybara", "~> 2.4"
+  spec.add_dependency "capybara", ">= 2.4", "< 4"
   spec.add_dependency "rack", ">= 1.4"
   spec.add_dependency "rack-proxy", ">= 0.6.0"
   spec.add_dependency "selenium-webdriver", "~> 3.0"
