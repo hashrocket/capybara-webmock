@@ -25,6 +25,10 @@ module Capybara
           wait_for_proxy_start
         end
 
+        reset
+      end
+
+      def reset
         get_output_nonblocking
         @output_buf = ""
       end
