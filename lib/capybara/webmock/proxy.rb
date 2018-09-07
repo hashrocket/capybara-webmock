@@ -25,16 +25,6 @@ class Capybara::Webmock::Proxy < Rack::Proxy
     end
   end
 
-  def self.remove_pid
-    File.delete(PID_FILE) if File.exist?(PID_FILE)
-  end
-
-  def rewrite_response(triplet)
-    status, headers, body = triplet
-    headers.delete 'transfer-encoding'
-    triplet
-  end
-
   private
 
   def allowed_host?(host)
