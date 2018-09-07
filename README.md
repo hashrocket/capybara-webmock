@@ -20,8 +20,8 @@ irrelevant external requests.
 `localhost`, `127.0.0.1`, `*.lvh.me`, and `lvh.me` are the only whitelisted
 domains.
 
-This gem currently supports Ruby on Rails applications
-using the Selenium Firefox and Chrome drivers.
+This gem currently supports Ruby on Rails applications using the Selenium
+Firefox and Chrome drivers.
 
 ### Installation
 
@@ -37,7 +37,7 @@ And then execute:
 $ bundle
 ```
 
-Or install it yourself as:
+Or install it via the command line:
 
 ```
 $ gem install capybara-webmock
