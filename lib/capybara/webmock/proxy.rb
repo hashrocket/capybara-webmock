@@ -2,12 +2,7 @@ require 'rack/proxy'
 require 'capybara/webmock'
 
 class Capybara::Webmock::Proxy < Rack::Proxy
-  PID_FILE = File.join('tmp', 'pids', 'capybara_webmock_proxy.pid')
-
-  def initialize(pid)
-    write_pid(pid)
-    ensure_log_exists
-  end
+  ALLOWED_HOSTS = allowed_hosts = ['127.0.0.1', 'localhost', /(.*\.|\A)lvh.me/]
 
   def call(env)
     @streaming = true
@@ -16,49 +11,30 @@ class Capybara::Webmock::Proxy < Rack::Proxy
 
   def perform_request(env)
     request = Rack::Request.new(env)
-    allowed_urls = ['127.0.0.1', 'localhost', %r{(.*\.|\A)lvh.me}]
 
-    if allowed_url?(allowed_urls, request.host)
+    if allowed_host?(request.host)
       super(env)
     else
-      ['200', {'Content-Type' => 'text/html'}, ['']]
+      headers = {
+        'Content-Type' => 'text/html',
+        'Access-Control-Allow-Origin' => '*',
+        'Access-Control-Allow-Methods' => '*',
+        'Access-Control-Allow-Headers' => '*'
+      }
+      ['200', headers, ['']]
     end
-  end
-
-  def self.remove_pid
-    File.delete(PID_FILE) if File.exist?(PID_FILE)
-  end
-
-  def rewrite_response(triplet)
-    status, headers, body = triplet
-    headers.delete "transfer-encoding"
-    triplet
   end
 
   private
 
-  def allowed_url?(urls, host)
-    case urls
-    when Array
-      urls.any? { |url| allowed_url?(url, host) }
-    when Regexp
-      urls =~ host
-    when String
-      urls == host
+  def allowed_host?(host)
+    ALLOWED_HOSTS.any? do |allowed_host|
+      case allowed_host
+      when Regexp
+        allowed_host =~ host
+      when String
+        allowed_host == host
+      end
     end
-  end
-
-  def write_pid(pid)
-    tmp_dir = 'tmp'
-    pid_dir = File.join(tmp_dir, 'pids')
-    Dir.mkdir(tmp_dir) unless Dir.exist?(tmp_dir)
-    Dir.mkdir(pid_dir) unless Dir.exist?(pid_dir)
-    File.write(PID_FILE, pid)
-  end
-
-  def ensure_log_exists
-    log_file = File.join('log', 'test.log')
-    Dir.mkdir('log') unless Dir.exist?('log')
-    File.open(log_file, 'a') { |f| f.write "" }
   end
 end
