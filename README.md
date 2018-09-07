@@ -18,7 +18,7 @@ Use of this gem can significantly speed up the test suite. No more waiting on
 irrelevant external requests.
 
 `localhost`, `127.0.0.1`, `*.lvh.me`, and `lvh.me` are the only whitelisted
-domains. Custom domain support is a planned feature.
+domains.
 
 This gem currently supports Ruby on Rails applications
 using the Selenium Firefox and Chrome drivers.
