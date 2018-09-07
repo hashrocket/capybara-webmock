@@ -111,15 +111,37 @@ Capybara::Webmock.port_number = 8080
 
 ### Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run
-`rake spec` to run the tests. You can also run `bin/console` for an interactive
-prompt that will allow you to experiment.
+After pulling down the repo, install dependencies:
 
-To install this gem onto your local machine, run `bundle exec rake install`. To
-release a new version, update the version number in `version.rb`, and then run
-`bundle exec rake release`, which will create a git tag for the version, push
-git commits and tags, and push the `.gem` file to
-[rubygems.org](https://rubygems.org).
+```
+$ bin/setup
+```
+
+Then, run the tests:
+
+```
+$ rake spec
+```
+
+For an interactive prompt that will allow you to experiment, run:
+
+```
+$ bin/console
+```
+
+To install your development gem onto your local machine, run:
+
+```
+$ bundle exec rake install
+```
+
+To release a new version, update the version number in `version.rb`, then
+update the git tag, push commits and tags, and publish the gem to
+[rubygems.org](https://rubygems.org) with:
+
+```
+$ bundle exec rake release
+```
 
 ### Contributing
 
