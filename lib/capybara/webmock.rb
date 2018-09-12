@@ -68,7 +68,7 @@ module Capybara
       end
 
       def chrome_options
-        { args: "proxy-server=127.0.0.1:#{port_number}" }
+        {args: [ "--proxy-server=127.0.0.1:#{port_number}" ]}
       end
 
       def phantomjs_options

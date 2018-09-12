@@ -1,7 +1,7 @@
 require 'open3'
 require 'fileutils'
 require 'socket'
-
+require 'capybara/spec/spec_helper'
 require 'spec_helper'
 
 describe Capybara::Webmock do
@@ -10,7 +10,7 @@ describe Capybara::Webmock do
   end
 
   let(:chrome_args) do
-    Capybara::Webmock.chrome_options[:args]
+    Capybara::Webmock.chrome_options[:args].first
   end
 
   let(:phantomjs_options) do
@@ -22,6 +22,8 @@ describe Capybara::Webmock do
   end
 
   describe '#chrome_args' do
+    include Capybara::SpecHelper
+
     it 'has an proxy flag' do
       expect(chrome_args).to include 'proxy-server='
     end
@@ -32,6 +34,15 @@ describe Capybara::Webmock do
 
     it 'has an http proxy port' do
       expect(chrome_args).to include '9292'
+    end
+
+    it 'is used by the provided driver' do
+      Capybara.server = :webrick
+      session = Capybara::Session.new(:capybara_webmock_chrome, TestApp)
+
+      expect do
+        session.visit('/')
+      end.not_to raise_error
     end
   end
 
