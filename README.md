@@ -81,6 +81,8 @@ or:
 ```ruby
 # Use Chrome Driver
 Capybara.javascript_driver = :capybara_webmock_chrome
+# or Chrome Driver in headless mode
+Capybara.javascript_driver = :capybara_webmock_chrome_headless
 ```
 
 ```ruby
@@ -88,7 +90,7 @@ Capybara.javascript_driver = :capybara_webmock_chrome
 Capybara.javascript_driver = :capybara_webmock_poltergeist
 ```
 
-*NOTE: These are just two default driver wrappers this gem provides. If you are
+*NOTE: These are just some default driver wrappers this gem provides. If you are
 already using a custom driver profile you can still use `capybara-webmock`, you
 just need to configure proxy settings to `127.0.0.1:9292`*
 
