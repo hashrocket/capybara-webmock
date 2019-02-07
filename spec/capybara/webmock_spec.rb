@@ -9,8 +9,12 @@ describe Capybara::Webmock do
     Capybara::Webmock.firefox_profile.instance_variable_get("@additional_prefs")
   end
 
-  let(:chrome_args) do
-    Capybara::Webmock.chrome_options[:args].first
+  let(:chrome_options_args) do
+    Capybara::Webmock.chrome_options.args
+  end
+
+  let(:chrome_headless_options_args) do
+    Capybara::Webmock.chrome_headless_options.args
   end
 
   let(:phantomjs_options) do
@@ -21,24 +25,37 @@ describe Capybara::Webmock do
     expect(Capybara::Webmock::VERSION).not_to be nil
   end
 
-  describe '#chrome_args' do
+  describe '#chrome_options' do
     include Capybara::SpecHelper
 
     it 'has an proxy flag' do
-      expect(chrome_args).to include 'proxy-server='
-    end
-
-    it 'has an http proxy address' do
-      expect(chrome_args).to include '127.0.0.1'
-    end
-
-    it 'has an http proxy port' do
-      expect(chrome_args).to include '9292'
+      expect(chrome_options_args).to include '--proxy-server=127.0.0.1:9292'
     end
 
     it 'is used by the provided driver' do
       Capybara.server = :webrick
       session = Capybara::Session.new(:capybara_webmock_chrome, TestApp)
+
+      expect do
+        session.visit('/')
+      end.not_to raise_error
+    end
+  end
+
+  describe '#chrome_headless_options' do
+    include Capybara::SpecHelper
+
+    it 'has an proxy flag' do
+      expect(chrome_headless_options_args).to include '--proxy-server=127.0.0.1:9292'
+    end
+
+    it 'has a headless flag' do
+      expect(chrome_headless_options_args).to include '--headless'
+    end
+
+    it 'is used by the provided driver' do
+      Capybara.server = :webrick
+      session = Capybara::Session.new(:capybara_webmock_chrome_headless, TestApp)
 
       expect do
         session.visit('/')
@@ -103,7 +120,7 @@ describe Capybara::Webmock do
       end
 
       it 'changes the http port' do
-        expect(chrome_args).to include '9988'
+        expect(chrome_options_args).to include '--proxy-server=127.0.0.1:9988'
       end
     end
   end
