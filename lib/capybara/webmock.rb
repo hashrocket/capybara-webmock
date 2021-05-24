@@ -70,8 +70,6 @@ module Capybara
       def chrome_options
         ::Selenium::WebDriver::Chrome::Options.new.tap do |options|
           options.add_argument "--proxy-server=127.0.0.1:#{port_number}"
-          options.add_argument('--headless')
-          options.add_argument('--disable-gpu')
         end
       end
 
