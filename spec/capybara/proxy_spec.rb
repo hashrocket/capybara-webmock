@@ -39,7 +39,7 @@ describe Capybara::Webmock::Proxy do
 
     %w{lvh.me sub.lvh.me localhost 127.0.0.1 example.com sub.example.com}.each do |host|
       it "allows extra host overrides #{host}" do
-        allow(ENV).to receive(:fetch).with("__CAPYBARA_WEBMOCK_ADDED_HOSTS", "").and_return("sub.example.com|example.com")
+        allow(ENV).to receive(:fetch).with("CAPYBARA_WEBMOCK_ADDED_HOSTS", "").and_return("sub.example.com|example.com")
         env = new_env(host)
         expect(proxy.perform_request(env)).to eq(['400', {foo: :bar}, ['baz']])
       end

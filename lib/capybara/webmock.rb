@@ -20,8 +20,8 @@ module Capybara
           gem_path   = File.dirname(__FILE__)
           proxy_file = File.join(gem_path, 'webmock', 'config.ru')
           env_config = {
-            "PROXY_PORT_NUMBER" => port_number.to_s,
-            "__CAPYBARA_WEBMOCK_ADDED_HOSTS" => allowed_hosts.to_a.join(SEPARATOR)
+            "CAPYBARA_WEBMOCK_PROXY_PORT_NUMBER" => port_number.to_s,
+            "CAPYBARA_WEBMOCK_ADDED_HOSTS" => allowed_hosts.to_a.join(SEPARATOR)
           }
           stdin, stdout, wait_thr = Open3.popen2e(env_config, "rackup", proxy_file)
           stdin.close

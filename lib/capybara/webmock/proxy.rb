@@ -28,7 +28,7 @@ class Capybara::Webmock::Proxy < Rack::Proxy
   private
 
   def allowed_hosts
-    DEFAULT_ALLOWED_HOSTS + ENV.fetch('__CAPYBARA_WEBMOCK_ADDED_HOSTS', "").split(Capybara::Webmock::SEPARATOR)
+    DEFAULT_ALLOWED_HOSTS + ENV.fetch('CAPYBARA_WEBMOCK_ADDED_HOSTS', "").split(Capybara::Webmock::SEPARATOR)
   end
 
   def allowed_host?(host)
