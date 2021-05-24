@@ -9,15 +9,21 @@ require 'capybara/webmock/proxied_request'
 
 module Capybara
   module Webmock
+    SEPARATOR = "|"
+
     class << self
-      attr_accessor :port_number, :pid_file, :kill_timeout, :start_timeout
+      attr_accessor :port_number, :pid_file, :kill_timeout, :start_timeout, :allowed_hosts
 
       def start
         if @pid.nil?
           kill_old_process
           gem_path   = File.dirname(__FILE__)
           proxy_file = File.join(gem_path, 'webmock', 'config.ru')
-          stdin, stdout, wait_thr = Open3.popen2e({ "PROXY_PORT_NUMBER" => port_number.to_s }, "rackup", proxy_file)
+          env_config = {
+            "PROXY_PORT_NUMBER" => port_number.to_s,
+            "__CAPYBARA_WEBMOCK_ADDED_HOSTS" => allowed_hosts.to_a.join(SEPARATOR)
+          }
+          stdin, stdout, wait_thr = Open3.popen2e(env_config, "rackup", proxy_file)
           stdin.close
           @stdout = stdout
           @pid = wait_thr[:pid]
