@@ -110,6 +110,13 @@ it 'makes a request to /somewhere when the user visits the page' do
 end
 ```
 
+You can provide extra hosts to be permitted past the proxy, but should be used carefully.
+This setting does not remove the default localhosts, but adds to them.
+
+```ruby
+Capybara::Webmock.allowed_hosts = ["example.com", "sub.example.com"]
+```
+
 ### Development
 
 After pulling down the repo, install dependencies:

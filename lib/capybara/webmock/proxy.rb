@@ -2,7 +2,7 @@ require 'rack/proxy'
 require 'capybara/webmock'
 
 class Capybara::Webmock::Proxy < Rack::Proxy
-  ALLOWED_HOSTS = allowed_hosts = ['127.0.0.1', 'localhost', /(.*\.|\A)lvh.me/]
+  DEFAULT_ALLOWED_HOSTS = ['127.0.0.1', 'localhost', /(.*\.|\A)lvh.me/]
 
   def call(env)
     @streaming = true
@@ -27,8 +27,12 @@ class Capybara::Webmock::Proxy < Rack::Proxy
 
   private
 
+  def allowed_hosts
+    DEFAULT_ALLOWED_HOSTS + ENV.fetch('CAPYBARA_WEBMOCK_ADDED_HOSTS', "").split(Capybara::Webmock::SEPARATOR)
+  end
+
   def allowed_host?(host)
-    ALLOWED_HOSTS.any? do |allowed_host|
+    allowed_hosts.any? do |allowed_host|
       case allowed_host
       when Regexp
         allowed_host =~ host

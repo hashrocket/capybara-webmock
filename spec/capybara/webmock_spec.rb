@@ -157,7 +157,7 @@ describe Capybara::Webmock do
       it 'starts a process' do
         Capybara::Webmock.start
         expect(Open3).to have_received(:popen2e).with(
-          { "PROXY_PORT_NUMBER" => "9292" },
+          { "CAPYBARA_WEBMOCK_PROXY_PORT_NUMBER" => "9292", "CAPYBARA_WEBMOCK_ADDED_HOSTS" => "" },
           "rackup",
           %r{/lib/capybara/webmock/config\.ru\Z}
         )
@@ -169,7 +169,13 @@ describe Capybara::Webmock do
       it 'uses a custom port' do
         Capybara::Webmock.port_number = 8873
         Capybara::Webmock.start
-        expect(Open3).to have_received(:popen2e).with({ "PROXY_PORT_NUMBER" => "8873" }, anything, anything)
+        expect(Open3).to have_received(:popen2e).with({ "CAPYBARA_WEBMOCK_PROXY_PORT_NUMBER" => "8873", "CAPYBARA_WEBMOCK_ADDED_HOSTS" => "" }, anything, anything)
+      end
+
+      it 'uses extra hosts' do
+        Capybara::Webmock.allowed_hosts = %w[sub.example.com example.com]
+        Capybara::Webmock.start
+        expect(Open3).to have_received(:popen2e).with({ "CAPYBARA_WEBMOCK_PROXY_PORT_NUMBER" => "9292", "CAPYBARA_WEBMOCK_ADDED_HOSTS" => "sub.example.com|example.com" }, anything, anything)
       end
     end
 
