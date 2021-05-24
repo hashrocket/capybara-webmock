@@ -19,7 +19,7 @@ jobs:
         ruby-version: ${{ matrix.ruby }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - run: |
-      export DISPLAY=:99
-      chromedriver --url-base=/wd/hub &
-      sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
-      bundle exec rake
+        export DISPLAY=":99"
+        chromedriver --url-base=/wd/hub &
+        sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
+        bundle exec rake
