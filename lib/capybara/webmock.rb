@@ -123,7 +123,7 @@ module Capybara
       end
 
       def kill_old_process
-        return unless File.exists?(pid_file)
+        return unless File.exist?(pid_file)
         old_pid = File.read(pid_file).to_i
         kill_process(old_pid) if old_pid > 1
         remove_pid_file
@@ -152,13 +152,13 @@ module Capybara
       end
 
       def write_pid_file
-        raise "Pid file #{pid_file} already exists" if File.exists?(pid_file)
+        raise "Pid file #{pid_file} already exists" if File.exist?(pid_file)
         FileUtils.mkdir_p(File.dirname(pid_file))
         File.write(pid_file, @pid.to_s)
       end
 
       def remove_pid_file
-        File.delete(pid_file) if File.exists?(pid_file)
+        File.delete(pid_file) if File.exist?(pid_file)
       end
     end
   end

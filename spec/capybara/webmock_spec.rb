@@ -139,7 +139,7 @@ describe Capybara::Webmock do
       written = []
       allow(File).to receive(:delete) { |path| written.delete(path) }
       allow(File).to receive(:write) { |path| written.push(path) }
-      allow(File).to receive(:exists?) { |path| written.include?(path) }
+      allow(File).to receive(:exist?) { |path| written.include?(path) }
 
       allow(Socket).to receive(:tcp)
 
