@@ -174,11 +174,11 @@ Capybara.register_driver :capybara_webmock do |app|
 end
 
 Capybara.register_driver :capybara_webmock_chrome do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome, capabilities: [Capybara::Webmock.chrome_options])
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: Capybara::Webmock.chrome_options)
 end
 
 Capybara.register_driver :capybara_webmock_chrome_headless do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome, capabilities: [Capybara::Webmock.chrome_headless_options])
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: Capybara::Webmock.chrome_headless_options)
 end
 
 Capybara.register_driver :capybara_webmock_poltergeist do |app|
