@@ -80,7 +80,7 @@ module Capybara
       end
 
       def chrome_headless_options
-        chrome_options.tap { |options| options.headless! }
+        chrome_options.tap { |options| options.add_argument('--headless') }
       end
 
       def phantomjs_options
